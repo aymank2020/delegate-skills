@@ -154,6 +154,10 @@ This package is intentionally inspectable:
 - `opencode-delegate` — requires `--model`, since OpenCode has no safe default.
 - Windows: the codex/opencode launches handle the `.cmd` shim (`shell:true` + quoting); native Windows
   launch smokes for `agy`/`grok`/`kimi` are still pending.
+- On Windows, `codex-delegate` model values and `opencode-delegate` model, agent, variant and session
+  values accept single tokens containing letters, digits, `.`, `_`, `:`, `/` and `-`. Other characters
+  fail before dispatch. Native Windows argument-rejection tests pass with Node 22; these tests do
+  not establish a new end-to-end implementer run. Run them with `node --test tests/windows-arguments.test.mjs`.
 - The full delegate → review → commit loop is designed for and run on Claude Code; other orchestrators
   (Cursor, …) are designed-for but unproven.
 

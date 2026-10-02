@@ -115,6 +115,15 @@ function parseArgs(argv) {
         fail(`unknown option: ${arg}`);
     }
   }
+  // These values are unquoted argv tokens in the Windows .cmd shell launch.
+  if (process.platform === "win32") {
+    const safeToken = /^[A-Za-z0-9][A-Za-z0-9._:\/-]*$/;
+    for (const flag of ["model", "agent", "variant", "session"]) {
+      if (opts[flag] !== null && !safeToken.test(opts[flag])) {
+        fail(`--${flag} value contains unsupported characters (allowed: letters, digits, . _ : / -)`);
+      }
+    }
+  }
   return opts;
 }
 
