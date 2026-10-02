@@ -104,6 +104,10 @@ function parseArgs(argv) {
   if (!SANDBOX_MODES.has(opts.sandbox)) {
     fail(`invalid --sandbox "${opts.sandbox}" (expected: ${[...SANDBOX_MODES].join(", ")})`);
   }
+  // The Windows .cmd launch uses a shell; a model must remain one token.
+  if (process.platform === "win32" && opts.model !== null && !/^[A-Za-z0-9][A-Za-z0-9._:\/-]*$/.test(opts.model)) {
+    fail("--model value contains unsupported characters (allowed: letters, digits, . _ : / -)");
+  }
   return opts;
 }
 
